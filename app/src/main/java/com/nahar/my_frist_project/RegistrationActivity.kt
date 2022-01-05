@@ -37,10 +37,12 @@ class RegistrationActivity : AppCompatActivity() {
                 if (emailPattern.matcher(email).matches()) {
 
                     val intent = Intent(this, LoginActivity::class.java)
-                    intent.putExtra("email", email)
+                    /*intent.putExtra("email", email)
                     intent.putExtra("password", password)
-                    intent.putExtra("emailPattern", email)
+                    intent.putExtra("emailPattern", email)*/
                     startActivity(intent)
+
+                    saveData(email, password)     //SharedPreferences save
 
                 } else {
                     Toast.makeText(this, "Invalid email address", Toast.LENGTH_SHORT).show()
@@ -50,5 +52,12 @@ class RegistrationActivity : AppCompatActivity() {
                 Toast.makeText(this, "Please enter your information!", Toast.LENGTH_LONG).show()
             }
         }
+    }
+    private fun saveData(email:String, password:String) {
+        val sharedPreferences = getSharedPreferences("registrationInfo", MODE_PRIVATE)
+        val editor = sharedPreferences.edit()
+        editor.putString("email", email)
+        editor.putString("password", password)
+        editor.apply()
     }
 }
