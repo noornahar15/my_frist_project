@@ -10,12 +10,15 @@ import androidx.core.graphics.BlendModeCompat
 class LauncherActivity : AppCompatActivity() {
     private lateinit var progressBar: ProgressBar
     private lateinit var progressBarAnimation: ProgressBarAnimation
+    private var sharedPrefEmail: String = ""
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_launcher)
 
         init()
+
+        getSharedPrefValue()
 
         setProgressBarColor()
 
@@ -38,9 +41,14 @@ class LauncherActivity : AppCompatActivity() {
     }
 
     private fun animation() {
-        progressBarAnimation = ProgressBarAnimation(this, progressBar, 0f, 100f)
+        progressBarAnimation = ProgressBarAnimation(this, progressBar, 0f, 100f, sharedPrefEmail)
         progressBarAnimation.duration = 5000
         progressBar.animation = progressBarAnimation
+    }
+
+    private fun getSharedPrefValue() {
+        val sharedPreferences = getSharedPreferences("loginInfo", MODE_PRIVATE)
+        sharedPrefEmail = sharedPreferences.getString("email", "").toString()
     }
 
     private fun init() {
